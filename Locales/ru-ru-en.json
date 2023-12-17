@@ -1,0 +1,41 @@
+{
+  "LOC_NAME": "Русский (дуб. стиль)",
+
+  "dragonoid": "Драгоноид",
+  "elephant": "Бивень",
+  "limulus": "Лимулус",
+  "rattleoid": "Гремучая змея",
+  "raptor": "Сокол",
+  "jackal": "Оборотень",
+  "saurus": "Саурус",
+  "mantis": "Мантрис",
+  "beestriker": "Пчела-убийца",
+  "laserman": "Лазермен",
+  "serpent": "Серпеноид",
+  "glorius": "Вариус",
+  "centipede": "Сентипоид",
+  "scorpion": "Скорпион",
+  "cancer": "Коготь ужаса",
+  "griffon": "Грифон",
+  "juggernaut": "Джаггерноид",
+  "fairy": "Мотылёк",
+  "elcondor": "Эль Кондор",
+  "garrison": "Роботаллион",
+  "crow": "Ворон",
+  "gargoyle": "Гаргоноид",
+  "shredder": "Потрошитель",
+  "knight": "Блокада",
+  "sphinx": "Сфинкс",
+  "worm": "Червь",
+
+  "menu_label": "Advanced Brawl",
+  "menu_button_play": "Играть",
+  "menu_button_deckbuilding": "Изменение колоды",
+  "menu_button_settings": "Настройки",
+  "menu_button_exit": "Выход",
+
+  "room_label": "Сетевая игра",
+  "room_button_join": "Присоединиться к игре",
+  "room_button_host": "Создать игру"
+
+}
