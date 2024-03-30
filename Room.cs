@@ -11,7 +11,7 @@ namespace AB_Client
     internal class Room
     {
         string roomKey;
-        Timer updateChecker = new(200);
+        Timer updateChecker = new(300);
         public bool IsMember;
 
         public Room(string roomKey, int playerCount)
@@ -22,6 +22,8 @@ namespace AB_Client
             updateChecker.Enabled = true;
             updateChecker.Start();
             IsMember = Display.RoomPrompt(roomKey, playerCount);
+            updateChecker.Stop();
+            if (!IsMember) ServerTalker.LeaveRoom(roomKey);
         }
 
         private void CheckUpdates(object source, ElapsedEventArgs e)
@@ -48,6 +50,7 @@ namespace AB_Client
                     Display.UserNames[i] = playersinfo[i];
                 }
             Display.Updating = false;
+            while (Display.Drawing) ;
             if (Display.IOType == "room") Display.DrawRoomIO();
         }
     }

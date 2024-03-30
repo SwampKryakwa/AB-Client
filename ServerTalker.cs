@@ -26,10 +26,9 @@ namespace AB_Client
             return JObject.Parse(reader.ReadToEnd());
         }
 
-        private static long GenerateSessionID()
-        {
-            return Request("getsession", "{}")["UUID"];
-        }
+        private static long GenerateSessionID() =>
+            Request("getsession", "{}")["UUID"];
+
 
         public static string CreateRoom(int playerCount)
         {
@@ -39,25 +38,25 @@ namespace AB_Client
             return jobject["room"];
         }
 
-        public static bool JoinRoom(string room)
-        {
-            return Request("joinroom", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\", \"userName\": \"" + Program.Settings.name + "\"}")["success"];
-        }
+        public static bool JoinRoom(string room) =>
+            Request("joinroom", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\", \"userName\": \"" + Program.Settings.name + "\"}")["success"];
 
-        public static bool UpdateReady(string room, bool isReady)
-        {
-            return Request("updateready", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\", \"isReady\": \"" + isReady + "\"}")["canStart"];
-        }
 
-        public static bool CheckStarted(string room)
-        {
-            return Request("checkstarted", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\"}")["started"];
-        }
+        public static void LeaveRoom(string room) =>
+            Request("leaveroom", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\", \"userName\": \"" + Program.Settings.name + "\"}");
 
-        public static void StartRoom(string room)
-        {
+
+        public static bool UpdateReady(string room, bool isReady) =>
+            Request("updateready", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\", \"isReady\": \"" + isReady + "\"}")["canStart"];
+
+
+        public static bool CheckStarted(string room) =>
+            Request("checkstarted", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\"}")["started"];
+
+
+        public static void StartRoom(string room) =>
             Request("startroom", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\"}");
-        }
+
 
         public static bool[] GetAllReady(string room)
         {
@@ -83,20 +82,17 @@ namespace AB_Client
             return Request("checkturnstart", json.ToString())["turnplayer"];
         }
 
-        public static bool CheckReady(string room)
-        {
-            return Request("checkready", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\"}")["canStart"];
-        }
+        public static bool CheckReady(string room) =>
+            Request("checkready", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\"}")["canStart"];
 
-        public static long StartGame(string room, int playerCount)
-        {
-            return Request("newgame", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\", \"playerCount\": \"" + playerCount + "\"}")["gid"];
-        }
 
-        public static long GetGID(string room)
-        {
-            return Request("getgid", "{\"room\": \"" + room + "\"}")["gid"];
-        }
+        public static long StartGame(string room, int playerCount) =>
+            Request("newgame", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + room + "\", \"playerCount\": \"" + playerCount + "\"}")["gid"];
+
+
+        public static long GetGID(string room) =>
+            Request("getgid", "{\"room\": \"" + room + "\"}")["gid"];
+
 
         public static (int PlayerCount, int PID) JoinGame(long GID, JObject deck)
         {
@@ -105,10 +101,9 @@ namespace AB_Client
             return (jobject["playerCount"], jobject["pid"]);
         }
 
-        public static dynamic GetUpdates(long GID, int PID)
-        {
-            return Request("getupdates", "{\"gid\":" + GID + ", \"pid\":" + PID + "}")["updates"];
-        }
+        public static dynamic GetUpdates(long GID, int PID) =>
+            Request("getupdates", "{\"gid\":" + GID + ", \"pid\":" + PID + "}")["updates"];
+
 
         public static void Answer(JObject json, long gid, int pid)
         {

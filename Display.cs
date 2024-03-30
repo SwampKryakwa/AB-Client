@@ -61,6 +61,7 @@ namespace AB_Client
         public static bool RoomStarted;
 
         public static bool Updating = false;
+        public static bool Drawing = false;
 
         public static List<string> Events = new();
 
@@ -413,13 +414,14 @@ namespace AB_Client
         {
             if (Game == null) return;
 
-            int cutoff = Math.Min(ScreenSize.Y / 3 - 1, Events.Count);
             int bottom = ScreenSize.Y / 3 * 2;
             ClearBlock(ScreenSize.X * 2 / 3, ScreenSize.Y / 3, ScreenSize.X, ScreenSize.Y * 2 / 3);
 
             int maxWidth = ScreenSize.X / 3;
 
             List<string> lines = new();
+            string file = DateTime.Now.ToString().Replace(':', '-') + ".txt";
+            File.AppendAllText(file, maxWidth.ToString() + "\n\n");
             foreach (string e in Events)
             {
                 if (e.Length >= maxWidth)
@@ -428,7 +430,7 @@ namespace AB_Client
                     string newEventLine = "";
                     foreach (string w in oldEvent)
                     {
-                        if (newEventLine.Length + w.Length > maxWidth)
+                        if ((newEventLine.Length + w.Length) > maxWidth)
                         {
                             lines.Add(newEventLine.Trim(' '));
                             newEventLine = "";
@@ -443,12 +445,13 @@ namespace AB_Client
             Console.CursorTop = ScreenSize.Y / 3;
             Console.CursorLeft = ScreenSize.X - Locales.Loc["display_label_log"].Length;
             Console.Write(Locales.Loc["display_label_log"]);
+            int cutoff = Math.Min(ScreenSize.Y / 3 - 1, lines.Count);
 
             Console.CursorTop = bottom;
             for (int i = 0; i < cutoff; i++)
             {
-                Console.CursorLeft = Console.BufferWidth - Events[^(i + 1)].Length;
-                Console.Write(Events[^(i + 1)]);
+                Console.CursorLeft = Console.BufferWidth - lines[^(i + 1)].Length;
+                Console.Write(lines[^(i + 1)]);
                 Console.CursorTop--;
             }
         }
@@ -596,6 +599,7 @@ namespace AB_Client
         public static void DrawRoomIO()
         {
             while (Updating) ;
+            Drawing = true;
 
             ClearBlock(ScreenSize.X / 3, ScreenSize.Y / 3, ScreenSize.X * 2 / 3, ScreenSize.Y * 2 / 3);
             Console.CursorTop = Console.BufferHeight / 2 - 2;
@@ -641,6 +645,7 @@ namespace AB_Client
             Console.CursorLeft = (Console.BufferWidth - Locales.Loc["menu_button_exit"].Length) / 2;
             Console.WriteLine(Locales.Loc["menu_button_exit"]);
             Console.BackgroundColor = ConsoleColor.Black;
+            Drawing = false;
         }
 
         public static string GetFullName(dynamic bakugan)

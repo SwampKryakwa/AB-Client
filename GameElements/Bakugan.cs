@@ -85,6 +85,13 @@ namespace AB_Client
             return Locales.Loc[Attribute] + " " + Locales.Loc[Type] + ", " + Power;
         }
 
+        public string GetFieldName()
+        {
+            if (Treatment != "none")
+                return Locales.Loc[Treatment] + " " + Locales.Loc[Attribute][0] + ". " + Locales.Loc[Type] + ", " + Power;
+            return Locales.Loc[Attribute][0] + ". " + Locales.Loc[Type] + ", " + Power;
+        }
+
         public string GetMidName()
         {
             return Locales.Loc[Attribute] + " " + Locales.Loc[Type];

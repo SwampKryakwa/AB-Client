@@ -77,12 +77,7 @@ namespace AB_Client
                     roomKey = ServerTalker.CreateRoom(2);
                     room = new Room(roomKey, 2);
                     if (!room.IsMember)
-                    {
-                        Console.Clear();
-                        Console.WriteLine("bruh");
-                        Console.ReadKey();
                         return;
-                    }
                     break;
 
                 //Back to menu

@@ -28,7 +28,8 @@ namespace AB_Client
             "judgementnight",
             "uptake",
             "tornadowall",
-            "blindjudge"
+            "blindjudge",
+            "tsunami"
         ];
 
         public static string[] SpecialThrows = [];
@@ -152,7 +153,7 @@ namespace AB_Client
                                 case "GateSetEvent":
                                     X = (int)update["PosX"];
                                     Y = (int)update["PosY"];
-                                    GateName = Display.alphabet[X].ToString() + (Y + 1);
+                                    GateName = Display.alphabet[Y].ToString() + (X + 1);
                                     Field[X, Y] = GateCard.FromJson(update.GateData, (int)update.CID, (int)update.Owner);
                                     if (TurnPlayer != this.PID)
                                     {
@@ -166,7 +167,7 @@ namespace AB_Client
                                 case "BakuganThrownEvent":
                                     X = (int)update.PosX;
                                     Y = (int)update.PosY;
-                                    GateName = Display.alphabet[X].ToString() + (Y + 1);
+                                    GateName = Display.alphabet[Y].ToString() + (X + 1);
                                     Bakugan thrownBakugan = Bakugan.FromJson(update.Bakugan, (int)update.Owner);
                                     Field[X, Y].Bakugans.Add(thrownBakugan);
 
@@ -182,7 +183,7 @@ namespace AB_Client
                                 case "BakuganAddedEvent":
                                     X = (int)update.PosX;
                                     Y = (int)update.PosY;
-                                    GateName = Display.alphabet[X].ToString() + (Y + 1);
+                                    GateName = Display.alphabet[Y].ToString() + (X + 1);
                                     Bakugan addedBakugan = Bakugan.FromJson(update.Bakugan, (int)update.Owner);
                                     Field[X, Y].Bakugans.Add(addedBakugan);
 
@@ -198,7 +199,7 @@ namespace AB_Client
                                 case "BakuganMovedEvent":
                                     X = (int)update.PosX;
                                     Y = (int)update.PosY;
-                                    GateName = Display.alphabet[X].ToString() + (Y + 1);
+                                    GateName = Display.alphabet[Y].ToString() + (X + 1);
                                     Bakugan movedBakugan = Field.Cast<GateCard>().SelectMany(x => x.Bakugans.Where(x => x.BID == (int)update.Bakugan.BID)).First();
                                     Field.Cast<GateCard>().First(x => x.Bakugans.Contains(movedBakugan)).Bakugans.Remove(movedBakugan);
                                     Field[X, Y].Bakugans.Add(movedBakugan);
