@@ -31,9 +31,9 @@ namespace AB_Client
             return Request("getsession", "{}")["UUID"];
         }
 
-        public static string CreateRoom()
+        public static string CreateRoom(int playerCount)
         {
-            dynamic jobject = Request("createroom", "{\"playerCount\": 2}");
+            dynamic jobject = Request("createroom", $"{{\"playerCount\": {playerCount}}}");
             Request("joinroom", "{\"UUID\":" + sessionID + ", \"roomName\": \"" + jobject["room"] + "\", \"userName\": \"" + Program.Settings.name + "\"}");
 
             return jobject["room"];

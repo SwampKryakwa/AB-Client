@@ -16,7 +16,7 @@ namespace AB_Client
             "Ventus",
             "Haos",
             "Subterra",
-            "Clear            "
+            "Clear"
         };
         static readonly string[] Treatments = new string[]
         {
@@ -63,7 +63,7 @@ namespace AB_Client
         public int Power { get; set; }
         public int Owner { get; protected set; }
 
-        Bakugan(int type, int attribute, int treatment, int power, int owner, int BID)
+        public Bakugan(int type, int attribute, int treatment, int power, int owner, int BID)
         {
             this.BID = BID;
             Attribute = Attributes[attribute];

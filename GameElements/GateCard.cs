@@ -10,22 +10,24 @@ namespace AB_Client
     {
         public List<Bakugan> Bakugans = new();
 
-        string[] Types = new string[]
-        {
+        public static string[] Types =
+        [
             "normalgate",
             "triplebattle",
             "quartetbattle",
             "mindghost",
             "attributehazard"
-        };
+        ];
 
         public string Type;
-        dynamic ExtraData;
+        public dynamic ExtraData;
         public int CID;
         public int Owner;
         public bool ActiveBattle = false;
         public bool BattleFrozen = false;
         public int Pos = 0;
+
+        public bool isOpen = false;
 
         public GateCard(int type, dynamic extraData, int owner, int CID)
         {
@@ -40,7 +42,16 @@ namespace AB_Client
 
         public static GateCard FromJson(dynamic json, int owner)
         {
-            return new GateCard((int)json.Type, json, owner, 0);
+            try
+            {
+                return new GateCard((int)json.Type, json, owner, 0);
+            }
+            catch
+            {
+                if (!Directory.Exists("error_logs")) Directory.CreateDirectory("error_logs");
+                File.WriteAllText($"error_logs/data-{DateTime.Now.ToString().Replace(':', '-')}.txt", json.ToString());
+                throw;
+            }
         }
 
         public static GateCard FromJson(dynamic json, int CID, int owner)

@@ -74,6 +74,7 @@
   "awaiting_other_choice_start": "Ожидаем выбора начальной карты ворот другими игроками",
   "your_turn_start": "Ваш ход. Выберите действие",
   "other_turn_start": "Ход игрока %. Ожидание",
+  "player_turn_event": "Ход игрока %",
   "player_placed_gate": "Игрок % выставил карту ворот на ",
   "player_thrown_bakugan": "& был брошен игроком % на карту ворот ",
   "added_bakugan": "& был добавлен на карту ворот ",
@@ -135,5 +136,7 @@
   "judgementnight": "Судная ночь",
   "uptake": "Поглощение",
   "tornadowall": "Стена торнадо",
-  "blindjudge": "Слепой судья"
+  "blindjudge": "Слепой судья",
+  
+  "display_label_log": "Ход игры"
 }
