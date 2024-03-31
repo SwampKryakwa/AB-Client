@@ -41,6 +41,8 @@
   "menu_button_settings": "Настройки",
   "menu_button_exit": "Выход",
 
+  "server_down": "Сервер оффлайн",
+
   "room_label": "Сетевая игра",
   "room_button_join": "Присоединиться к игре",
   "room_button_host": "Создать игру",

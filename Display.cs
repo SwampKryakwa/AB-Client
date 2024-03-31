@@ -420,8 +420,6 @@ namespace AB_Client
             int maxWidth = ScreenSize.X / 3;
 
             List<string> lines = new();
-            string file = DateTime.Now.ToString().Replace(':', '-') + ".txt";
-            File.AppendAllText(file, maxWidth.ToString() + "\n\n");
             foreach (string e in Events)
             {
                 if (e.Length >= maxWidth)

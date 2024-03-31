@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 using System.Timers;
 
 namespace AB_Client
@@ -40,6 +41,7 @@ namespace AB_Client
         public int ActivePlayer;
         public int PID;
         public int PlayerCount;
+        public string[] PlayerNames;
         JArray updates = new();
 
         bool setFirstGate = false;
@@ -107,6 +109,12 @@ namespace AB_Client
                         {
                             switch (update["Type"].ToString())
                             {
+                                case "PlayerNamesInfo":
+                                    JArray data = update["Info"] as JArray;
+                                    PlayerNames = new string[data.Count];
+                                    for (int i = 0; i < PlayerNames.Length; i++)
+                                        PlayerNames[i] = data[i].ToString();
+                                    break;
                                 case "PickGateEvent":
                                     if (setFirstGate) break;
                                     needPrint = true;
@@ -132,14 +140,14 @@ namespace AB_Client
 
                                 case "PlayerTurnStart":
                                     if (TurnPlayer != (int)update.PID)
-                                        Display.Events.Add(Locales.Loc["player_turn_event"].Replace("%", ((int)update.PID + 1).ToString()));
+                                        Display.Events.Add(Locales.Loc["player_turn_event"].Replace("%", PlayerNames[(int)update.PID]));
                                     Display.DrawEvents();
 
                                     TurnPlayer = (int)update.PID;
 
                                     if (PID != TurnPlayer)
                                     {
-                                        Display.Wait(Locales.Loc["other_turn_start"].Replace("%", ((int)update.PID + 1).ToString()));
+                                        Display.Wait(Locales.Loc["other_turn_start"].Replace("%", PlayerNames[(int)update.PID]));
                                         Display.DrawIO();
                                     }
                                     else
@@ -160,7 +168,7 @@ namespace AB_Client
                                         Display.DrawField();
                                         needPrint = true;
                                     }
-                                    Display.Events.Add(Locales.Loc["player_placed_gate"].Replace("%", ((int)update.Owner + 1).ToString()) + GateName);
+                                    Display.Events.Add(Locales.Loc["player_placed_gate"].Replace("%", PlayerNames[(int)update.PID]) + GateName);
                                     Display.DrawEvents();
                                     break;
 
@@ -176,7 +184,7 @@ namespace AB_Client
                                         Display.DrawField();
                                         needPrint = true;
                                     }
-                                    Display.Events.Add(Locales.Loc["player_thrown_bakugan"].Replace("%", ((int)update.Owner + 1).ToString()).Replace("&", thrownBakugan.GetShortName()) + GateName);
+                                    Display.Events.Add(Locales.Loc["player_thrown_bakugan"].Replace("%", PlayerNames[(int)update.Owner]).Replace("&", thrownBakugan.GetShortName()) + GateName);
                                     Display.DrawEvents();
                                     break;
 
@@ -433,7 +441,7 @@ namespace AB_Client
                                     Field[X, Y] = new GateCard(-1, null, -1, -1);
                                     Display.DrawField();
                                     if (PID != ActivePlayer)
-                                        Display.Events.Add(Locales.Loc["other_turn_start"].Replace("%", (TurnPlayer + 1).ToString()));
+                                        Display.Events.Add(Locales.Loc["other_turn_start"].Replace("%", PlayerNames[TurnPlayer]));
                                     break;
 
                                 case "BattleOver":
@@ -444,7 +452,7 @@ namespace AB_Client
                                     }
                                     else
                                     {
-                                        Display.Events.Add(Locales.Loc["battle_end"].Replace("%", ((int)update.Victor + 1).ToString()));
+                                        Display.Events.Add(Locales.Loc["battle_end"].Replace("%", PlayerNames[(int)update.Victor]));
                                     }
                                     break;
 
@@ -465,7 +473,7 @@ namespace AB_Client
 
                                 case "GameOver":
                                     Display.DrawField();
-                                    Display.Events.Add(Locales.Loc["game_over"].Replace("%", ((int)update.Victor + 1).ToString()));
+                                    Display.Events.Add(Locales.Loc["game_over"].Replace("%", PlayerNames[(int)update.Victor]));
 
                                     Console.ReadKey(true);
                                     running = false;
@@ -484,7 +492,7 @@ namespace AB_Client
                     {
                         if (!Directory.Exists("error_logs")) Directory.CreateDirectory("error_logs");
                         File.WriteAllText($"error_logs/log-{DateTime.Now.ToString().Replace(':', '-')}.txt", e.ToString());
-                        CheckUpdates();
+                        Environment.Exit(-1);
                     }
                 }
 
@@ -493,7 +501,7 @@ namespace AB_Client
                     Display.FullRedraw();
                     if (TurnPlayer != this.PID && !prevStart && needPrint)
                     {
-                        Display.Events.Add(Locales.Loc["other_turn_start"].Replace("%", (TurnPlayer + 1).ToString()));
+                        Display.Events.Add(Locales.Loc["other_turn_start"].Replace("%", PlayerNames[TurnPlayer]));
                     }
                 }
             }

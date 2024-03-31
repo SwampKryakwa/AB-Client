@@ -6,7 +6,7 @@ namespace AB_Client
 {
     internal class Program
     {
-        public const string VERSION = "Alpha 3";
+        public const string VERSION = "Alpha 4";
 
         public static dynamic Settings;
 
@@ -47,6 +47,11 @@ namespace AB_Client
 
         static void Room()
         {
+            if (!ServerTalker.Ping())
+            {
+                Display.SelectionPrompt(Locales.Loc["server_down"], Locales.Loc["button_return"]);
+                return;
+            }
             string roomKey = "";
             Room room;
             switch (Display.SelectionPrompt(Locales.Loc["room_label"], Locales.Loc["room_button_join"], Locales.Loc["room_button_host"], Locales.Loc["button_return"]))
