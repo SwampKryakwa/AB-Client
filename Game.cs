@@ -168,7 +168,7 @@ namespace AB_Client
                                         Display.DrawField();
                                         needPrint = true;
                                     }
-                                    Display.Events.Add(Locales.Loc["player_placed_gate"].Replace("%", PlayerNames[(int)update.PID]) + GateName);
+                                    Display.Events.Add(Locales.Loc["player_placed_gate"].Replace("%", PlayerNames[(int)update.Owner]) + GateName);
                                     Display.DrawEvents();
                                     break;
 
@@ -274,6 +274,36 @@ namespace AB_Client
                                     Display.DrawEvents();
 
                                     break;
+
+                                case "Selection":
+                                    prevStart = true;
+                                    var answers = new JArray();
+                                    foreach (dynamic selection in update.selections)
+                                    {
+                                        switch (selection.type.ToString())
+                                        {
+                                            case "B":
+                                                answers.Add(new JObject { { "answer", Display.BoolPrompt(Locales.Loc[selection["prompt"].ToString()]) } });
+                                                break;
+                                            case "R":
+                                                answers.Add(new JObject { { "answer", Display.BoolPrompt(Locales.Loc["СounterPrompt"].Replace("%", PlayerNames[selection["user"]].ToString()).Replace("&", Locales.Loc[AbilityNames[selection["ability"]]])) } });
+                                                break;
+                                            case "A":
+                                                JArray abilities = selection["options"];
+                                                List<string> abilityTypes = [];
+                                                List<int> abilityIds = [];
+                                                foreach (dynamic ability in abilities)
+                                                {
+                                                    abilityTypes.Add(Locales.Loc[abilityTypes[ability["type"]]]);
+                                                    abilityIds.Add(ability["id"]);
+                                                }
+                                                answers.Add(new JObject { { "answer", Display.SelectionPrompt(Locales.Loc[selection["prompt"].ToString()], abilityTypes.ToArray()) } });
+                                                break;
+                                        }
+                                    }
+                                    ServerTalker.Answer(new JObject { { "array", answers } }, GID, PID);
+                                    break;
+
 
                                 case "StartSelection":
                                     prevStart = true;

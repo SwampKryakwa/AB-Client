@@ -535,7 +535,7 @@ namespace AB_Client
 
             for (int i = 0; i < lines.Count; i++)
             {
-                Console.SetCursorPosition((Console.BufferWidth - lines[i].Length) / 2, (Console.BufferHeight - options.Length) / 2 + i - 2);
+                Console.SetCursorPosition((Console.BufferWidth - lines[i].Length) / 2, (Console.BufferHeight - options.Length) / 2 - lines.Count + i);
                 Console.Write(lines[i]);
             }
             for (int i = 0; i < options.Length; i++)
